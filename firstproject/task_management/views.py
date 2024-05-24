@@ -1,10 +1,9 @@
 from rest_framework import generics
 from .serializers import ProjectSerializer, TaskSerializer
-from rest_framework import serializers
 from .models import Project, Task
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.response import Response
 from firstapp.views import User
 
@@ -16,12 +15,7 @@ class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-class ProjectSerializer(serializers.ModelSerializer):
-    tasks = TaskSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Project
-        fields = '__all__'
 class TaskListCreate(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
@@ -30,30 +24,6 @@ class TaskRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
-class TaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = '__all__'
-
-# class CreateUser(APIView):
-#     def post(self, request):
-#         try:
-#             username = request.data.get('username')
-#             password = request.data.get('password')
-#             user = User.objects.create_user(username=username, password=password)
-            
-#             return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
-#         except Exception as e:
-#             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
-# class UserList(APIView):
-#     def get(self, request):
-#         try:
-#             users = User.objects.all()
-#             user_list = [{'id': user.id, 'username': user.username} for user in users]
-#             return Response(user_list, status=status.HTTP_200_OK)
-#         except Exception as e:
-#             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TaskAssign(APIView):

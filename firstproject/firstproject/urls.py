@@ -23,10 +23,7 @@ from firstapp.views import (
 from django.contrib.auth import views as auth_views
 from task_management import views
 from django.urls import path
-from task_management.views import UserList
 from django.urls import path
-from task_management.views import CreateUser
-
 urlpatterns = [
      path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

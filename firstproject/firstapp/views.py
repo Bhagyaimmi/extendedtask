@@ -85,23 +85,6 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
-    # def create(self, request, *args, **kwargs):
-    #     username = request.data.get('username')
-    #     email = request.data.get('email')
-    #     password = request.data.get('password')
-
-    #     if not (username and email and password):
-    #         return Response({'error': 'Username, email, and password are required'}, status=status.HTTP_400_BAD_REQUEST)
-    #     user = User.objects.create_user(username = username, email = email, password = password)
-
-    #     # # Generate JWT tokens
-    #     # refresh = RefreshToken.for_user(user)
-    #     # tokens = {
-    #     #     'refresh': str(refresh),
-    #     #     'access': str(refresh.access_token),}
-
-    #     # return Response(tokens, status=status.HTTP_201_CREATED)
-
     def perform_create(self, serializer):
         user = serializer.save()
 
@@ -135,9 +118,7 @@ class TokenRefreshView(APIView):
         except Exception as e:
             return Response({'error': 'Invalid refresh token'}, status=status.HTTP_401_UNAUTHORIZED)
 
-class UserProfileView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+
 
 class PasswordResetView(APIView):
     
@@ -292,36 +273,3 @@ class ArticleExcelExportView(APIView):
         response['Content-Disposition'] = 'attachment; filename="articles.xlsx"'
         workbook.save(response)
         return response
-
-
-class UserSearchView(generics.ListAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        queryset = User.objects.all()
-        name = self.request.query_params.get('name', None)
-        if name:
-            queryset = queryset.filter(username__icontains=name)
-        return queryset
-class ProductSearchView(generics.ListAPIView):
-    serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        queryset = Product.objects.all()
-        name = self.request.query_params.get('name', None)
-        if name:
-            queryset = queryset.filter(name__icontains=name)
-        return queryset
-
-class ArticleSearchView(generics.ListAPIView):
-    serializer_class = ArticleSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        queryset = Article.objects.all()
-        title = self.request.query_params.get('title', None)
-        if title:
-            queryset = queryset.filter(title__icontains=title)
-        return queryset
