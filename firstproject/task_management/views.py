@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from firstapp.views import User
 
 class ProjectListCreate(generics.ListCreateAPIView):
     queryset = Project.objects.all()
@@ -34,25 +35,25 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
-class CreateUser(APIView):
-    def post(self, request):
-        try:
-            username = request.data.get('username')
-            password = request.data.get('password')
-            user = User.objects.create_user(username=username, password=password)
+# class CreateUser(APIView):
+#     def post(self, request):
+#         try:
+#             username = request.data.get('username')
+#             password = request.data.get('password')
+#             user = User.objects.create_user(username=username, password=password)
             
-            return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+#             return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+#         except Exception as e:
+#             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
-class UserList(APIView):
-    def get(self, request):
-        try:
-            users = User.objects.all()
-            user_list = [{'id': user.id, 'username': user.username} for user in users]
-            return Response(user_list, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+# class UserList(APIView):
+#     def get(self, request):
+#         try:
+#             users = User.objects.all()
+#             user_list = [{'id': user.id, 'username': user.username} for user in users]
+#             return Response(user_list, status=status.HTTP_200_OK)
+#         except Exception as e:
+#             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TaskAssign(APIView):
