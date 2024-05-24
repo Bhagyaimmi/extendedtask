@@ -21,7 +21,11 @@ from firstapp.views import (
      TokenObtainPairView,
     TokenRefreshView,PasswordResetView, PasswordResetConfirmView )
 from django.contrib.auth import views as auth_views
-
+from task_management import views
+from django.urls import path
+from task_management.views import UserList
+from django.urls import path
+from task_management.views import CreateUser
 
 urlpatterns = [
      path('admin/', admin.site.urls),
@@ -30,12 +34,8 @@ urlpatterns = [
     path('api/',include('firstapp.urls')),
     path('api/password/reset/', PasswordResetView.as_view(), name='password-reset'),
     path('password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
-     path('password/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
-    # path('export/users/csv/', UserCSVExportView.as_view(), name='export-users-csv'),
-    # path('export/users/excel/', UserExcelExportView.as_view(), name='export-users-excel'),
-    # path('export/products/csv/', ProductCSVExportView.as_view(), name='export-products-csv'),
-    # path('export/products/excel/', ProductExcelExportView.as_view(), name='export-products-excel'),
-    # path('export/articles/csv/', ArticleCSVExportView.as_view(), name='export-articles-csv'),
-    # path('export/articles/excel/', ArticleExcelExportView.as_view(), name='export-articles-excel'),
-    # #path('export/users/excel/', export_users_excel, name='export_users_excel'),
+    path('password/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
+    path('api/',include('task_management.urls')),
+
+
 ]

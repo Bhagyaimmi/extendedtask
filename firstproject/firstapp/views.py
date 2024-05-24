@@ -24,7 +24,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 import csv
-from openpyxl import Workbook
+from openpyxl import Workbook # type: ignore
 from django.http import HttpResponse
 
 
