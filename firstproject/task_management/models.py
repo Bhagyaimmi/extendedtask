@@ -17,6 +17,6 @@ class Task(models.Model):
     priority = models.IntegerField()
     deadline = models.DateField()
     assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    project = models.ForeignKey(User, related_name='tasks', on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='tasks', on_delete=models.CASCADE)
     def __str__(self):
         return self.title

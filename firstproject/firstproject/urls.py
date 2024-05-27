@@ -23,9 +23,8 @@ from firstapp.views import (
 from django.contrib.auth import views as auth_views
 from task_management import views
 from django.urls import path
-from django.urls import path
 urlpatterns = [
-     path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/',include('firstapp.urls')),
@@ -33,6 +32,4 @@ urlpatterns = [
     path('password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
     path('password/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
     path('api/',include('task_management.urls')),
-
-
 ]

@@ -32,6 +32,7 @@ class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
 
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
     def get_queryset(self):
         queryset = User.objects.all()
         query = self.request.query_params.get('q')
@@ -58,9 +59,6 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
-
-
-
 
 class ArticleListView(generics.ListCreateAPIView):
     queryset = Article.objects.all()
