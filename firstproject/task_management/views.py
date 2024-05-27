@@ -9,25 +9,25 @@ from firstapp.views import User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-class ProjectListCreate(generics.ListCreateAPIView):
+class ProjectListView(generics.ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
-class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
 
-class TaskListCreate(generics.ListCreateAPIView):
+class TaskListView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
-class TaskRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
