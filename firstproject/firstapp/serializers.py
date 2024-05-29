@@ -25,8 +25,6 @@ class ArticleSerializer(serializers.ModelSerializer):
 #     def create(self, validated_data):
 #          return User.objects.create(**validated_data)
 
-
-##############3hide above add below 
 class UserSerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True, read_only=True)
     articles = ArticleSerializer(many=True, read_only=True)

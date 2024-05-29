@@ -59,10 +59,6 @@ class UserTasksList(APIView):
         except Task.DoesNotExist:
             return Response({'error': 'No tasks assigned to this user'}, status=status.HTTP_404_NOT_FOUND)
         
-######################3 
-############add below 2 classes for updatestaus and update prority
-
-
 class UpdateTaskStatus(APIView):
     def put(self, request, pk):
         try:
