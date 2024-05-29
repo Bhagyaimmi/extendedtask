@@ -11,12 +11,38 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
+# class Task(models.Model):
+#     title = models.CharField(max_length=255)
+#     description = models.TextField()
+#     priority = models.IntegerField()
+#     deadline = models.DateField()
+#     assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+#     project = models.ForeignKey(Project, related_name='tasks', on_delete=models.CASCADE)
+#     def __str__(self):
+#         return self.title
+
+#above hide and below add
+
 class Task(models.Model):
+    PRIORITY_CHOICES = [
+        ('high', 'High'),
+        ('medium', 'Medium'),
+        ('low', 'Low')
+    ]
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed')
+    ]
+
     title = models.CharField(max_length=255)
     description = models.TextField()
-    priority = models.IntegerField()
+    priority = models.CharField( max_length=20,choices=PRIORITY_CHOICES, default='medium')
     deadline = models.DateField()
     assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     project = models.ForeignKey(Project, related_name='tasks', on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
+
     def __str__(self):
         return self.title
+

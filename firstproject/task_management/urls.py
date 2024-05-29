@@ -6,5 +6,10 @@ urlpatterns = [
     path('tasks/', views.TaskListView.as_view(), name='task-list'),
     path('tasks/<int:pk>/', views.TaskDetailView.as_view(), name='task-detail'),
     path('tasks/<int:pk>/assign/<int:user_id>/', views.TaskAssign.as_view(), name='task-assign'),
-    path('users/<int:user_id>/tasks/', views.UserTasksList.as_view(), name='user-tasks')    
+    path('users/<int:user_id>/tasks/', views.UserTasksList.as_view(), name='user-tasks'),   
+    #add extra urls below
+    path('tasks/<int:pk>/status/', views.UpdateTaskStatus.as_view(), name='task-update-status'),  
+    path('tasks/<int:pk>/priority/', views.TaskPriorityUpdate.as_view(), name='task-priority-update'),
+
+
 ]
