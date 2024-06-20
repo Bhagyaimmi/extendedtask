@@ -12,6 +12,7 @@ class Project(models.Model):
         return self.title
 
 
+
 class Task(models.Model):
     PRIORITY_CHOICES = [
         ('high', 'High'),
@@ -34,4 +35,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+class Weather(models.Model):
+    location = models.CharField(max_length=255)
+    temperature = models.FloatField()
+    description = models.CharField(max_length=255)
+    time = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.location} - {self.time}"
