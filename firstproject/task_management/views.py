@@ -1,6 +1,7 @@
+import requests
 from rest_framework import generics
-from .serializers import ProjectSerializer, TaskSerializer
-from .models import Project, Task
+from .serializers import ProjectSerializer, TaskSerializer, WeatherSerializer
+from .models import Project, Task, Weather
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework import status
@@ -88,7 +89,42 @@ class TaskPriorityUpdate(APIView):
             return Response({'error': 'Task not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+class FetchWeather(APIView):
+    def post(self, request):
+        location = request.data.get('location')
+        if not location:
+            return Response({'error': 'Location is required'}, status=status.HTTP_400_BAD_REQUEST)
 
+        api_key = 'f7f606e435b43a11aec5deb7588a97de'  # Replace with your actual API key
+        api_url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric'
+
+        try:
+            response = requests.get(api_url)
+            response.raise_for_status()
+
+            weather_data = response.json()
+            weather = Weather(
+                location=location,
+                temperature=weather_data['main']['temp'],
+                description=weather_data['weather'][0]['description']
+            )
+            weather.save()
+
+            serializer = WeatherSerializer(weather)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except requests.exceptions.RequestException as e:
+            return Response({'error': 'External API request failed', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except KeyError as e:
+            return Response({'error': 'Failed to parse weather data from API response', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class WeatherListView(generics.ListAPIView):
+    queryset = Weather.objects.all()
+    serializer_class = WeatherSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
         
 
 

@@ -10,5 +10,6 @@ urlpatterns = [
     path('users/<int:user_id>/tasks/', views.UserTasksList.as_view(), name='user-tasks'),   
     path('tasks/<int:pk>/status/', views.UpdateTaskStatus.as_view(), name='task-update-status'),  
     path('tasks/<int:pk>/priority/', views.TaskPriorityUpdate.as_view(), name='task-priority-update'),
-
+    path('weather/', views.FetchWeather.as_view(), name='fetch-weather'),
+    path('weather/history/', views.WeatherListView.as_view(), name='weather-history'),
 ]
