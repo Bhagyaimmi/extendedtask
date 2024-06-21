@@ -95,7 +95,7 @@ class FetchWeather(APIView):
         if not location:
             return Response({'error': 'Location is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        api_key = 'f7f606e435b43a11aec5deb7588a97de'  # Replace with your actual API key
+        api_key = 'f7f606e435b43a11aec5deb7588a97de'  
         api_url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric'
 
         try:
