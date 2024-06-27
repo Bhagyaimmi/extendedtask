@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from firstapp.views import User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
+from django.dispatch import receiver
 
 class ProjectListView(generics.ListCreateAPIView):
     queryset = Project.objects.all()
@@ -125,6 +127,48 @@ class WeatherListView(generics.ListAPIView):
     serializer_class = WeatherSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+
+
+@receiver(pre_save, sender=Task)
+def before_task_save(sender, instance, **kwargs):
+    print(f'Before saving Task: {instance.title}')
+
+@receiver(post_save, sender=Task)
+def after_task_save(sender, instance, created, **kwargs):
+    if created:
+        print(f'Task created: {instance.title}')
+    else:
+        print(f'Task updated: {instance.title}')
+
+@receiver(pre_delete, sender=Task)
+def before_task_delete(sender, instance, **kwargs):
+    print(f'Before deleting Task: {instance.title}')
+
+@receiver(post_delete, sender=Task)
+def after_task_delete(sender, instance, **kwargs):
+    print(f'Task deleted: {instance.title}')
+
+
+@receiver(pre_save, sender=Project)
+def before_project_save(sender, instance, **kwargs):
+    print(f'Before saving Project: {instance.title}')
+
+@receiver(post_save, sender=Project)
+def after_project_save(sender, instance, created, **kwargs):
+    if created:
+        print(f'Project created: {instance.title}')
+    else:
+        print(f'Project updated: {instance.title}')
+
+@receiver(pre_delete, sender=Project)
+def before_project_delete(sender, instance, **kwargs):
+    print(f'Before deleting Project: {instance.title}')
+
+@receiver(post_delete, sender=Project)
+def after_project_delete(sender, instance, **kwargs):
+    print(f'Project deleted: {instance.title}')
+
+
         
 
 

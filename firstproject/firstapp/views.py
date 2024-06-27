@@ -26,6 +26,8 @@ from django.views.generic.edit import FormView
 import csv
 from openpyxl import Workbook # type: ignore
 from django.http import HttpResponse
+from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
+from django.dispatch import receiver
 
 
 class UserListView(generics.ListCreateAPIView):
@@ -271,3 +273,43 @@ class ArticleExcelExportView(APIView):
         response['Content-Disposition'] = 'attachment; filename="articles.xlsx"'
         workbook.save(response)
         return response
+    
+    
+@receiver(pre_save, sender=Product)
+def before_product_save(sender, instance, **kwargs):
+    print(f'Before saving Product: {instance.name}')
+
+@receiver(post_save, sender=Product)
+def after_Product_save(sender, instance, created, **kwargs):
+    if created:
+        print(f'Product created: {instance.name}')
+    else:
+        print(f'Product updated: {instance.name}')
+
+@receiver(pre_delete, sender=Product)
+def before_Product_delete(sender, instance, **kwargs):
+    print(f'Before deleting Product: {instance.name}')
+
+@receiver(post_delete, sender=Product)
+def after_Product_delete(sender, instance, **kwargs):
+    print(f'Product deleted: {instance.name}')
+
+    
+@receiver(pre_save, sender=Article)
+def before_Article_save(sender, instance, **kwargs):
+    print(f'Before saving Article: {instance.title}')
+
+@receiver(post_save, sender=Article)
+def after_Article_save(sender, instance, created, **kwargs):
+    if created:
+        print(f'Article created: {instance.title}')
+    else:
+        print(f'Article updated: {instance.title}')
+
+@receiver(pre_delete, sender=Article)
+def before_Article_delete(sender, instance, **kwargs):
+    print(f'Before deleting Article: {instance.title}')
+
+@receiver(post_delete, sender=Article)
+def after_Article_delete(sender, instance, **kwargs):
+    print(f'Article deleted: {instance.title}')
