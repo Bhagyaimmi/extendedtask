@@ -169,6 +169,18 @@ def after_project_delete(sender, instance, **kwargs):
     print(f'Project deleted: {instance.title}')
 
 
+@receiver(pre_save, sender=Weather)
+def before_Weather_save(sender, instance, **kwargs):
+    print(f'Before saving Weather: {instance.location}')
+
+@receiver(post_save, sender=Weather)
+def after_project_save(sender, instance, created, **kwargs):
+    if created:
+        print(f'Weather created: {instance.location}')
+    else:
+        print(f'Weather updated: {instance.location}')
+
+
         
 
 
